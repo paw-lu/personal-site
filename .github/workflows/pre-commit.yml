@@ -33,7 +33,7 @@ jobs:
           python = "py{}.{}".format(*sys.version_info[:2])
           payload = sys.version.encode() + sys.executable.encode()
           digest = hashlib.sha256(payload).hexdigest()
-          result = {{ '"${{ runner.os }}-{}-{}-pre-commit".format(python, digest[:8])' }}
+          result = "${{ runner.os }}-{}-{}-pre-commit".format(python, digest[:8])
 
           print("::set-output name=result::{}".format(result))
 
@@ -41,9 +41,9 @@ jobs:
         uses: actions/cache@v2.1.6
         with:
           path: ~/.cache/pre-commit
-          key: "${{ steps.pre-commit-cache.outputs.result }}-${{ hashFiles('.pre-commit-config.yaml') }}"
+          key: ${{ steps.pre-commit-cache.outputs.result }}-${{ hashFiles('.pre-commit-config.yaml') }}
           restore-keys: |
-            {{ "${{ steps.pre-commit-cache.outputs.result }}-" }}
+            ${{ steps.pre-commit-cache.outputs.result }}-
 
       - name: Run pre-commit
         run: pre-commit run --all-files --show-diff-on-failure --color=always
