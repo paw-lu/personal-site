@@ -45,7 +45,8 @@ jobs:
           restore-keys: |
             ${{ steps.pre-commit-cache.outputs.result }}-
 
+      - name: Install dependencies
+        run: poetry install --ansi
+
       - name: Run pre-commit
-        run: >-
-          poetry install --ansi
-          pre-commit run --all-files --show-diff-on-failure --color=always
+        run: pre-commit run --all-files --show-diff-on-failure --color=always
