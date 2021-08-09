@@ -1,10 +1,12 @@
 name: pre-commit
+
 on:
   - push
   - pull_request
 
 jobs:
   pre-commit:
+    name: pre-commit
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repository
@@ -35,7 +37,8 @@ jobs:
 
           print("::set-output name=result::{}".format(result))
 
-      - uses: actions/cache@v2.1.6
+      - name: "Restore pre-commit cache"
+        uses: actions/cache@v2.1.6
         with:
           path: ~/.cache/pre-commit
           key: "${{ steps.pre-commit-cache.outputs.result }}-${{ hashFiles('.pre-commit-config.yaml') }}"
